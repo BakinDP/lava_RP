@@ -137,7 +137,6 @@ void loadMenu() { //  Меню загрузки тотема
     break;
   }
   }
-  changeTemplateTexture(skinName);
 }
 
 void createMenu() { //  Меню создания тотема
@@ -164,42 +163,46 @@ void createMenu() { //  Меню создания тотема
   }
 
   string skinName;
+  if (variantCreate != 0) {
+    system("cls");
+    cout << "BBEDNTE HNK" << endl;
 
-  system("cls");
-  cout << "BBEDNTE HNK" << endl;
+    cin >> skinName;
+    skinName += ".png";
 
-  cin >> skinName;
-  skinName += ".png";
+    if (doesFileExist(skinName)) { // Найти в корневой папке файл с названием,
+                                   // совпадающим с ником
+      string COMMAND_MOVE =
+          "MOVE /Y " + skinName + " .\\assets\\minecraft\\textures\\item";
+      system(COMMAND_MOVE.c_str());
+    } else if (findFirstPng() !=
+               "fileNotFound_doNotUseThisName") { //    Если файл из прошлого
+                                                  //    пункта не найден,
+                                                  //    выбрать первый
+                                                  //    попавшийся за
+                                                  //    исключением pack.png
+      string bufferName = findFirstPng() + ".png";
+      string COMMAND_REN = "RENAME " + bufferName + " " + skinName;
+      string COMMAND_MOVE =
+          "MOVE /Y " + skinName + " .\\assets\\minecraft\\textures\\item";
 
-  if (doesFileExist(skinName)) { // Найти в корневой папке файл с названием,
-                                 // совпадающим с ником
-    string COMMAND_MOVE =
-        "MOVE /Y " + skinName + " .\\assets\\minecraft\\textures\\item";
-    system(COMMAND_MOVE.c_str());
-  } else if (findFirstPng() !=
-             "fileNotFound_doNotUseThisName") { //    Если файл из прошлого
-                                                //    пункта не найден, выбрать
-                                                //    первый попавшийся за
-                                                //    исключением pack.png
-    string bufferName = findFirstPng() + ".png";
-    string COMMAND_REN = "RENAME " + bufferName + " " + skinName;
-    string COMMAND_MOVE =
-        "MOVE /Y " + skinName + " .\\assets\\minecraft\\textures\\item";
-
-    system(COMMAND_REN.c_str());
-    system(COMMAND_MOVE.c_str());
-  } else if (findFirstPng() ==
-             "fileNotFound_doNotUseThisName") { //    Алгоритм не нашел ни
-                                                //    одного подходящего файла
-    cout << "HE HANDEHO .png" << endl;
-    variantCreate = 0;
-    system("pause");
-  } else { //   Ошибка, возникающая лишь в самых непредвиденных обстоятельствах
-    cout << "THIS MESSAGE SHOULD NEVER APPEAR (reach me out in Lava discord - "
-            "@buildanation)"
-         << endl;
-    variantCreate = 0;
-    system("pause");
+      system(COMMAND_REN.c_str());
+      system(COMMAND_MOVE.c_str());
+    } else if (findFirstPng() ==
+               "fileNotFound_doNotUseThisName") { //    Алгоритм не нашел ни
+                                                  //    одного подходящего файла
+      cout << "HE HANDEHO .png" << endl;
+      variantCreate = 0;
+      system("pause");
+    } else { //   Ошибка, возникающая лишь в самых непредвиденных
+             //   обстоятельствах
+      cout
+          << "THIS MESSAGE SHOULD NEVER APPEAR (reach me out in Lava discord - "
+             "@buildanation)"
+          << endl;
+      variantCreate = 0;
+      system("pause");
+    }
   }
 
   switch (variantCreate) {
@@ -292,6 +295,9 @@ int main() {
          << endl;
     system("pause");
   }
+
+  return 0;
+}
 
   return 0;
 }
