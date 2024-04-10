@@ -128,20 +128,23 @@ void createMenu() { //  Меню создания тотема
     }
   }
 
-  int failFlag = false; //  Если алгоритм не сможет найти подходящий файл
-                        //  текстуры, нужно уведомить пользователя
+  int correctInput = true; //  Проверка на корректность ввода (не pack)
+
   if (!killSwitch) {
     do {
       system("cls");
       cout << "BBEDNTE HNK";
-      if (failFlag)
+      if (fileMaster->findFirstPng().empty())
         cout << " ( ! HE HANDEHbI .png ! )";
       cout << endl;
 
       cin >> skinName;
+
+      correctInput = !fileMaster->findFirstPng().empty();
+      if (skinName == "pack")
+        correctInput = false;
       skinName += ".png";
-      failFlag = true;
-    } while (fileMaster->findFirstPng().empty() && skinName != "pack");
+    } while (!correctInput);
 
     fileMaster->createNewTotem(skinName);
     fileMaster->exportTemplate(templatesList[atoll(variantCreate.c_str()) - 1],
