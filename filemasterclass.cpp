@@ -84,12 +84,12 @@ std::string getFile(std::ifstream &is) {
 }
 
 //  Заменить все подстроки в строке
-void findReplace(std::string &file_contents, const std::string &morn,
-                 const std::string &night) {
-  auto pos = file_contents.find(morn);
+void findReplace(std::string &fileContents, const std::string &replacedString,
+                 const std::string &replacementString) {
+  auto pos = fileContents.find(replacedString);
   while (pos != std::string::npos) {
-    file_contents.replace(pos, morn.length(), night);
-    pos = file_contents.find(morn, pos);
+    fileContents.replace(pos, replacedString.length(), replacementString);
+    pos = fileContents.find(replacedString, pos);
   }
 }
 
